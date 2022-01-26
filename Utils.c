@@ -6,20 +6,31 @@ typedef struct Node {
     struct Node* next;
 }Stack;
 
-void sa(Stack* head)
+void sa(Stack** head)
 {
-    while (head->next != NULL)
+    Stack** current = head;
+    while ((*current)->next != NULL)
     {
-        if (head->next->next->next = NULL)
+        if ((*current)->next->next->next->next = NULL)
         {
             
-            Stack* temp = (Stack*)malloc(sizeof(Stack*));
-            head->next = head->next->next->next;
-            temp = head->next->next;
-            head->next->next = NULL;
-            head->next->next->next = head->next->next;
+            // Stack* temp = (Stack*)malloc(sizeof(Stack*));
+            // temp = (*head)->next->next;
+
+            printf("%d\n",(*current)->next->data );
+            printf("%d\n",(*current)->next->next->data );
+            // printf("%d\n",(*head)->next->next->next->data );
+            // (*head)->next = (*head)->next->next->next;
+            // (*head)->next->next->next->next = temp;
+            // temp->next = NULL;
+
+
+
+            // (*head)->next->next->next = NULL;
+            // (*head)->next->next->next->next = (*head)->next->next;
+            break;
         }
-        head = head->next;
+        (*current)= (*current)->next;
     }
 }
 
@@ -30,28 +41,32 @@ void printList(Stack* head)
         printf("%d", head->data);
         head = head->next;
     }
+    printf("\n");
 }
 
-void addNode(Stack* head,int num)
+void addNode(Stack** head,int num)
 {
     Stack* new = (Stack*)malloc(sizeof(Stack*));
     new->data = num;
-    new->next = head;
-    printf("%d",new->data);
-    head = new;
+    new->next = *head;
+    *head = new;
+    
 }
 
 int main(void)
 {
-    
     Stack* head = NULL;
     int i = 0;
-    while(i < 5)
-    {
-        
-        addNode(head,i);
+    while(i < 10)
+    { 
+         addNode(&head,i);
+        // printf("%d",head->data);
         i++;
     }
-
+    printf("\n");
+    printList(head);
+    
+    // printf("%d\n",head->next->next->next->next->next->data);
+    sa(&head);
     printList(head);
 }
