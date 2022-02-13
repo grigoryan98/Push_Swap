@@ -13,8 +13,6 @@ void push(stack** head, stack** pushed)
     *head = *pushed;
 }
 
-
-
 void pop(stack** head, stack** poped)
 {
     stack* new = *head;
@@ -23,7 +21,36 @@ void pop(stack** head, stack** poped)
     new->next = NULL;
 }
 
-void sasb(stack** swaped, char c)
+void popend(stack** head, stack** poped)
+{
+    stack* new = (stack*)malloc(sizeof(stack*));
+    new = *head;
+    while(new->next->next != NULL)
+    {
+        new = new->next;
+    }
+    *poped = new->next;
+    new->next = NULL;
+    // *poped = new;
+
+    // *poped = (new)->next;
+    // *
+
+
+}
+
+void pushend(stack** ab,stack** poped)
+{
+    stack* current = *ab;
+    while(current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = *poped;
+    
+}
+
+void swap_ab(stack** swaped, char c)
 {
     stack* first = NULL;
     stack* second = NULL;
@@ -36,17 +63,17 @@ void sasb(stack** swaped, char c)
     else printf("sb");
 }
 
-void ss(stack** a, stack** b)
+void swap_both(stack** a, stack** b)
 {
-    stack* firsta = NULL;
-    stack* seconda = NULL;
+    stack* firsta = (stack*)malloc(sizeof(stack*));
+    stack* seconda = (stack*)malloc(sizeof(stack*));
     pop(a,&firsta);
     pop(a,&seconda);
     push(a,&firsta);
     push(a,&seconda);
 
-    stack* firstb = NULL;
-    stack* secondb = NULL;
+    stack* firstb = (stack*)malloc(sizeof(stack*));
+    stack* secondb = (stack*)malloc(sizeof(stack*));
     pop(b,&firsta);
     pop(b,&seconda);
     push(b,&firsta);
@@ -55,36 +82,51 @@ void ss(stack** a, stack** b)
     printf("ss");
 }
 
-void papb(stack** a, stack** b, char c)
+void push_ab(stack** src, stack** dst, char c)
 {
-    stack* poped = NULL;
-    if(c == a)
-    {
-        pop(a,&poped);
-        push(b,&poped);
-        printf("pa");
-    }
-    else
-    {
-        pop(b,&poped);
-        push(a,&poped);
-        printf("pb");
-    }
+    stack** poped = (stack**)malloc(sizeof(stack**));
+    pop(src,poped);
+    push(dst,poped);
+    if(c = 'a')
+        printf("pa\n");
+    else printf("pb\n");
 }
 
-    
-void sasb(stack** swaped, char c)
+void rotate_ab(stack** ab, char c)
 {
-    stack* first = NULL;
-    stack* second = NULL;
-    pop(swaped,&first);
-    pop(swaped,&second);
-    push(swaped,&first);
-    push(swaped,&second);
+    
+    stack** poped = (stack**)malloc(sizeof(stack**));
+    pop(ab, poped);
+    
+    pushend(ab, poped);
     if(c == 'a')
-        printf("sa");
-    else printf("sb");
+        printf("ra\n");
+    else
+        printf("rb\n");    
+}
 
+void rotate_both(stack** a, stack** b)
+{
+    stack** popeda = (stack**)malloc(sizeof(stack**));
+    pop(a, popeda);
+    pushend(a, popeda);
+    
+    stack** popedb = (stack**)malloc(sizeof(stack**));
+    pop(b, popedb);
+    pushend(b, popedb);
+
+    printf("rr");  
+}
+
+void reverse_rotate_ab(stack** a, char c)
+{
+    stack** poped = (stack**)malloc(sizeof(stack**));
+    popend(a,poped);
+    push(a,poped);
+    if(c == 'a')
+        printf("rra");
+    else    
+        printf("rrb");
 }
 
 void printList(stack* head)
@@ -103,29 +145,25 @@ void addNode(stack** head,int num)
     new->data = num;
     new->next = *head;
     *head = new;
-    
 }
 
 
 int main(void)
 {
-    stack* head = NULL;
-    stack* poped = NULL;
+    stack* a = NULL;
+    stack* b = NULL;
+    stack* poped = (stack*)malloc(sizeof(stack*));
     stack* pushed = NULL;
     int i = 0;
     while(i < 10)
     { 
-         addNode(&head,i);
-        // printf("%d",head->data);
+         addNode(&a,i);
+         addNode(&b,i);
         i++;
     }
-    printList(head);
-    sa(&head);
-    printf("\n");
-    printList(head);
-    // test(&head,&sb);
-    // printList(head);
-    // printf("%d\n",head->next->next->next->next->next->data);
-    // sa(&head);
-    // printList(head);
+    printList(a);
+    printList(b);
+    push_ab(&a,&b,'b');
+    printList(a);
+    printList(b);
 }
